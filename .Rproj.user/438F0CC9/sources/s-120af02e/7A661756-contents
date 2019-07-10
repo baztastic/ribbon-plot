@@ -1,0 +1,100 @@
+source("data.R")
+
+spiral <- function(z, bodyName="Jupiter", bodyDf=planets) {
+  planet <- bodyDf[which(bodyDf$name == bodyName),]
+  rad <- planet$mean_orbital_radius_km
+  period <- planet$orbital_period_days
+  x <- rad * cos(z / period)
+  y <- rad * sin(z / period)
+  z <- z
+  return(list(x=x, y=y, z=z))
+}
+
+spiral_sun <- function(z, bodyName="Sun", bodyDf=planets) {
+  planet <- bodyDf[which(bodyDf$name == bodyName),]
+  rad <- planet$radius
+  period <- 10
+  x <- rad * cos(z / period)
+  y <- rad * sin(z / period)
+  z <- z
+  return(list(x=x, y=y, z=z))
+}
+
+zmax <- 600000
+
+z <- seq(0,zmax, by=350)
+z_end <- seq(0,zmax, by=3000)
+z_earth <- seq(0,zmax, by=50)
+z_venus <- seq(0,zmax, by=50)
+z_inner <- seq(0,zmax, by=50)
+sunRad <- planets[planets$name=="Sun","radius"]
+growSize <- 10
+
+Sun <- spiral_sun(z_inner, bodyName="Sun") 
+Mercury <- spiral(z_inner, bodyName="Mercury") 
+Venus <- spiral(z_venus, bodyName="Venus") 
+Earth <- spiral(z_earth, bodyName="Earth") 
+Mars <- spiral(z_earth, bodyName="Mars") 
+Jupiter <- spiral(z, bodyName="Jupiter") 
+Saturn <- spiral(z, bodyName="Saturn") 
+Uranus <- spiral(z_end, bodyName="Uranus") 
+Neptune <- spiral(z_end, bodyName="Neptune") 
+Pluto <- spiral(z_end, bodyName="Pluto") 
+
+Sun$size <- growSize*1
+Mercury$size <- growSize*0.1
+Venus$size <- growSize*0.1
+Earth$size <- growSize*0.1
+Mars$size <- growSize*0.2
+Jupiter$size <- growSize*0.3
+Saturn$size <- growSize*0.3
+Uranus$size <- growSize*0.4
+Neptune$size <- growSize*0.4
+Pluto$size <- growSize*0.5
+
+Sun$color <- "white"
+Mercury$color <- "peachpuff"
+Venus$color <- "wheat1"
+Earth$color <- "dodgerblue"
+Mars$color <- "firebrick1"
+Jupiter$color <- "orange1"
+Saturn$color <- "lightgoldenrod1"
+Uranus$color <- "plum1"
+Neptune$color <- "skyblue"
+Pluto$color <- "darkorange"
+
+py <- 
+  plot_ly(x=Mercury$x, y=Mercury$y, z=Mercury$z, name = "Mercury", type="scatter3d", mode="lines", line = list(color = Mercury$color, width = Mercury$size), hoverinfo="none") %>%
+  add_trace(x=Venus$x, y=Venus$y, z=Venus$z, name = "Venus", mode = 'lines', line = list(color = Venus$color, width = Venus$size), hoverinfo="none") %>%
+  add_trace(x=Earth$x, y=Earth$y, z=Earth$z, name = "Earth", mode = 'lines', line = list(color = Earth$color, width = Earth$size), hoverinfo="none") %>%
+  add_trace(x=Mars$x, y=Mars$y, z=Mars$z, name = "Mars", mode = 'lines', line = list(color = Mars$color, width = Mars$size), hoverinfo="none") %>%
+  add_trace(x=Jupiter$x, y=Jupiter$y, z=Jupiter$z, name = "Jupiter", mode = 'lines', line = list(color = Jupiter$color, width = Jupiter$size), hoverinfo="none") %>%
+  add_trace(x=Saturn$x, y=Saturn$y, z=Saturn$z, name = "Saturn", mode = 'lines', line = list(color = Saturn$color, width = Saturn$size), hoverinfo="none") %>%
+  add_trace(x=Uranus$x, y=Uranus$y, z=Uranus$z, name = "Uranus", mode = 'lines', line = list(color = Uranus$color, width = Uranus$size), hoverinfo="none") %>%
+  add_trace(x=Neptune$x, y=Neptune$y, z=Neptune$z, name = "Neptune", mode = 'lines', line = list(color = Neptune$color, width = Neptune$size), hoverinfo="none") %>%
+  add_trace(x=Pluto$x, y=Pluto$y, z=Pluto$z, name = "Pluto", mode = 'lines', line = list(color = Pluto$color, width = Pluto$size), hoverinfo="none") %>%
+  add_trace(x=Sun$x, y=Sun$y, z=Sun$z, name = "Sun", mode = 'lines', line = list(color = Sun$color, width = Sun$size), hoverinfo="none") %>%
+  layout(
+    paper_bgcolor='#000000',
+    plot_bgcolor='#000000',
+    xaxis = list(title = "",
+                 zeroline = FALSE,
+                 showline = FALSE,
+                 showticklabels = FALSE,
+                 showgrid = FALSE
+    ),
+    yaxis = list(title = "",
+                 zeroline = FALSE,
+                 showline = FALSE,
+                 showticklabels = FALSE,
+                 showgrid = FALSE
+    )
+  )
+
+py
+
+htmlwidgets::saveWidget(as_widget(py), "planets.html")
+
+# Sys.setenv("plotly_username" = "baztastic")
+# Sys.setenv("plotly_api_key" = "VOxQztJe6nHzPq3TgzkA")
+# api_create(py, filename = "Solar System", fileopt = "overwrite")

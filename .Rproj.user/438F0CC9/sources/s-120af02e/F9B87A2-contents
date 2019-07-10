@@ -1,0 +1,46 @@
+source("data.R")
+
+sin_moon <- function(x, moonName="Io", moonsDf=planets, logY=F) {
+  moon <- moonsDf[which(moonsDf$name == moonName),]
+  rad <- moon$mean_orbital_radius_km
+  period <- moon$orbital_period_days
+  y <- sign(runif(1)-0.5) * rad * sin(x / period + runif(1))
+  # print(y)
+  if(logY) {
+    if(abs(y) < 1){
+      return(NA)
+    }
+    y <- sign(y) * log(abs(y))
+  }
+  return(y)
+}
+sunRad <- planets[planets$name=="Sun","radius"]
+# p <- 
+growSize <- 2
+p <- ggplot(data = data.frame(x=seq(0,400000)), mapping = aes(x = x)) +
+  # geom_vline(xintercept =  seq(5,150, by = 5*pi)) +
+  stat_function(fun = sin_moon, n = 5000, args = c(moonName="Mercury"), size=growSize*0.1, color="peachpuff") +
+  # geom_ribbon(min=-(sunRad), max=(sunRad), fill='white', alpha=0.3) +
+  stat_function(fun = sin_moon, n = 5000, args = c(moonName="Venus"), size=growSize*0.1, color="wheat1") +
+  stat_function(fun = sin_moon, n = 5000, args = c(moonName="Earth"), size=growSize*0.1, color="dodgerblue") +
+  stat_function(fun = sin_moon, n = 5000, args = c(moonName="Mars"), size=growSize*0.2, color="firebrick1") +
+  stat_function(fun = sin_moon, n = 1000, args = c(moonName="Jupiter"), size=growSize*0.3, color="orange1") +
+  stat_function(fun = sin_moon, n = 1000, args = c(moonName="Saturn"), size=growSize*0.3, color="lightgoldenrod1") +
+  stat_function(fun = sin_moon, n = 1000, args = c(moonName="Uranus"), size=growSize*0.4, color="plum1") +
+  stat_function(fun = sin_moon, n = 1000, args = c(moonName="Neptune"), size=growSize*0.4, color="skyblue") +
+  
+  stat_function(fun = sin_moon, n = 1000, args = c(moonName="Pluto"), size=growSize*0.5, color="darkorange") +
+  geom_ribbon(min=-sunRad, max=sunRad, fill='black') +
+  geom_hline(yintercept=-sunRad, color='black', size=0.3) +
+  geom_hline(yintercept=sunRad, color='black', size=0.3) +
+  theme_void() + 
+  # coord_flip() +
+  theme(
+    plot.background = element_rect(fill="black"),    # Background of the entire plot
+    panel.background = element_rect(fill="black")   # Background of plotting area
+  )
+
+# ggsave(plot = p, filename='planets_ls.png', width = 2*177*2, height=200, units='mm', dpi=300)
+# system('./glow -a 2.5 -s 50 planets_ls.png planets_ls_glow.png')
+print(p)
+# ggplotly(p)

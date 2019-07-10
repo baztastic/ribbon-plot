@@ -1,0 +1,9 @@
+{
+    "path" : "~/db_coding/tattoo",
+    "sortOrder" : [
+        {
+            "ascending" : true,
+            "columnIndex" : 2
+        }
+    ]
+}

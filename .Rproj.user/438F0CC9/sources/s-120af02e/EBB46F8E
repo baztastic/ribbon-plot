@@ -1,0 +1,26 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1561540214813.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "EBB46F8E",
+    "lastKnownWriteTime" : 1561543156,
+    "last_content_update" : 1561543156264,
+    "path" : "~/db_coding/tattoo/moons3d.R",
+    "project_path" : "moons3d.R",
+    "properties" : {
+        "cursorPosition" : "31,0",
+        "scrollLine" : "0",
+        "tempName" : "Untitled1"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

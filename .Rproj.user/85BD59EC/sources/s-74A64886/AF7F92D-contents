@@ -1,0 +1,36 @@
+library(ggplot2)
+
+jupiter <- 71492  # radius of Jupiter (km): 71492
+moons <- read.csv('galilean_moons.csv')
+# attach(moons)
+
+ggplot(moons, aes(orbital_period_days, mean_orbital_radius_km)) + geom_point()
+
+sin_moon <- function(x, moonName="Io", moonsDf=moons) {
+  moon <- moonsDf[which(moonsDf$name == moonName),]
+  rad <- moon$mean_orbital_radius_km
+  period <- moon$orbital_period_days
+  sign(runif(1)-0.5) * rad * sin(x / period + runif(1))
+}
+
+spiral_moon <- function(x, y, z, moonName="Io", moonsDf=moons) {
+  moon <- moonsDf[which(moonsDf$name == moonName),]
+  rad <- moon$mean_orbital_radius_km
+  period <- moon$orbital_period_days
+  rad * sin(x / period) + rad * sin(y / period) + (z / period) #+ runif(1))
+}
+
+p <- ggplot(data = data.frame(x=seq(0,150)), mapping = aes(x = x))
+p + 
+  # geom_vline(xintercept =  seq(5,150, by = 5*pi)) +
+  stat_function(fun = sin_moon, n = 1000, args = c(moonName="Io"), size=1.0) + 
+  geom_ribbon(min=-jupiter, max=jupiter, fill='white') +
+  geom_hline(yintercept=-jupiter, color='black', size=1.2) +
+  geom_hline(yintercept=jupiter, color='black', size=1.2) +
+  stat_function(fun = sin_moon, n = 1000, args = c(moonName="Europa"), size=1.4) + 
+  stat_function(fun = sin_moon, n = 1000, args = c(moonName="Ganymede"), size=1.6) + 
+  stat_function(fun = sin_moon, n = 1000, args = c(moonName="Callisto"), size=1.2) + 
+  xlim(1, 150) + theme_void() + coord_flip()
+
+# print(p)
+# 

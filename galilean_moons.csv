@@ -1,0 +1,5 @@
+name, orbital_period_days, mean_orbital_radius_km, eccentricity, radius
+Io, 1.769137786, 421700, 0.0041, 1821.6
+Europa, 3.551181, 670900, 0.009, 1560.8
+Ganymede, 7.15455296, 1070400, 0.0013, 2634.1
+Callisto, 16.6890184, 1882700, 0.0074, 2410.3

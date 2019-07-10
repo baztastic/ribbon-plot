@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1560091724747.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "AF7F92D",
+    "lastKnownWriteTime" : 1560101047,
+    "last_content_update" : 1560101047079,
+    "path" : "~/Dropbox/coding/tattoo/tattoo.R",
+    "project_path" : "tattoo.R",
+    "properties" : {
+        "cursorPosition" : "13,1",
+        "scrollLine" : "5",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
